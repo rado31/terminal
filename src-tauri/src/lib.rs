@@ -4,7 +4,7 @@ mod config;
 mod logger;
 
 use application::{commands, App};
-use std::process;
+use std::{process, sync::Mutex};
 use tauri::{Builder, Manager};
 
 pub fn run() {
@@ -18,7 +18,7 @@ pub fn run() {
 
     if let Err(error) = Builder::default()
         .setup(|app| {
-            app.manage(state);
+            app.manage(Mutex::new(state));
             Ok(())
         })
         .plugin(tauri_plugin_opener::init())

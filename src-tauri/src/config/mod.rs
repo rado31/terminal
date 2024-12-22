@@ -7,6 +7,6 @@ pub struct Options {
 
 impl Default for Options {
     fn default() -> Self {
-        Self { path: "".to_lowercase(), baud_rate: 9600 }
+        Self { path: "COM1".to_string(), baud_rate: 9600 }
     }
 }

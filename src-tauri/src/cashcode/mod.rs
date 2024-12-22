@@ -20,95 +20,92 @@ impl CashCode {
             .timeout(Duration::from_millis(100))
             .open()?;
 
-        Ok(Self {
-            port: Mutex::new(port),
-            response: vec![0; 6],
-        })
+        Ok(Self { port: Mutex::new(port), response: vec![0; 6] })
     }
 
     pub fn disable(&mut self) {
         let mut port = self.port.lock().unwrap();
 
         if let Err(error) = port.write(commands::DISABLE) {
-            log::error!("DISABLE: {error}");
+            log::error!("DISABLE write: {error}");
         };
 
         if let Err(error) = port.read(self.response.as_mut_slice()) {
-            log::error!("DISABLE: {error}");
+            log::error!("DISABLE read: {error}");
         };
 
-        self.response.clear()
+        self.response = vec![0; 6];
     }
 
     pub fn enable(&mut self) {
         let mut port = self.port.lock().unwrap();
 
         if let Err(error) = port.write(commands::ENABLE) {
-            log::error!("ENABLE: {error}");
+            log::error!("ENABLE write: {error}");
         };
 
         if let Err(error) = port.read(self.response.as_mut_slice()) {
-            log::error!("ENABLE: {error}");
+            log::error!("ENABLE read: {error}");
         };
 
-        self.response.clear()
+        self.response = vec![0; 6];
     }
 
     pub fn reset(&mut self) {
         let mut port = self.port.lock().unwrap();
 
         if let Err(error) = port.write(commands::RESET) {
-            log::error!("RESET: {error}");
+            log::error!("RESET write: {error}");
         };
 
         if let Err(error) = port.read(self.response.as_mut_slice()) {
-            log::error!("RESET: {error}");
+            log::error!("RESET read: {error}");
         };
 
-        self.response.clear();
+        self.response = vec![0; 6];
     }
 
     pub fn set_security(&mut self) {
         let mut port = self.port.lock().unwrap();
 
         if let Err(error) = port.write(commands::SECURITY) {
-            log::error!("SET SECURITY: {error}");
+            log::error!("SET SECURITY write: {error}");
         };
 
         if let Err(error) = port.read(self.response.as_mut_slice()) {
-            log::error!("SET SECURITY: {error}");
+            log::error!("SET SECURITY read: {error}");
         };
 
         thread::sleep(Duration::from_secs(2));
-        self.response.clear();
+        self.response = vec![0; 6];
     }
 
     pub fn return_bill(&mut self) {
         let mut port = self.port.lock().unwrap();
 
         if let Err(error) = port.write(commands::RETURN) {
-            log::error!("RETURN: {error}");
+            log::error!("RETURN write: {error}");
         };
 
         if let Err(error) = port.read(self.response.as_mut_slice()) {
-            log::error!("RETURN: {error}");
+            log::error!("RETURN read: {error}");
         };
 
-        self.response.clear();
+        self.response = vec![0; 6];
     }
 
     pub fn stack(&mut self) {
         let mut port = self.port.lock().unwrap();
 
         if let Err(error) = port.write(commands::STACK) {
-            log::error!("STACK: {error}");
+            log::error!("STACK write: {error}");
         };
 
         if let Err(error) = port.read(self.response.as_mut_slice()) {
-            log::error!("STACK: {error}");
+            log::error!("STACK read: {error}");
         };
 
-        self.response.clear();
+        self.response = vec![0; 6];
     }
 
     pub fn poll(&mut self) -> [u8; 2] {
